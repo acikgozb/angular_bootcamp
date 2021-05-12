@@ -1,0 +1,19 @@
+<app-divider>
+  Modal Component
+</app-divider>
+<button (click)="toggleModalVisibility()" class="ui button">Open Modal</button>
+<app-modal (closeModal)="toggleModalVisibility()" *ngIf="isModalVisible">
+  <div modalTitle>Dynamic header for modal.</div>
+  <p>
+    Dynamic content for modal.
+  </p>
+  <ng-container modalFooter>
+    <button class="ui button" (click)="toggleModalVisibility()">Close me!</button>
+  </ng-container>
+</app-modal>
+
+
+<app-divider>
+  Accordion
+</app-divider>
+<app-accordion [items]="accordionItems"></app-accordion>
