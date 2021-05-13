@@ -192,22 +192,22 @@
 
 // Function generics
 
-const numberWrapper = (value: number): number[] => {
-    return [value];
-};
-
-const stringWrapper = (value: string): string[] => {
-    return [value];
-};
-
-const booleanWrapper = (value: boolean): boolean[] => {
-    return [value];
-};
-
-const valueWrapper = <valueType>(value: valueType): valueType[] => {
-    return [value];
-};
-
-valueWrapper<number>(5);
-valueWrapper<string>('Berk');
-valueWrapper<boolean>(false);
+// const numberWrapper = (value: number): number[] => {
+//     return [value];
+// };
+//
+// const stringWrapper = (value: string): string[] => {
+//     return [value];
+// };
+//
+// const booleanWrapper = (value: boolean): boolean[] => {
+//     return [value];
+// };
+//
+// const valueWrapper = <valueType>(value: valueType): valueType[] => {
+//     return [value];
+// };
+//
+// valueWrapper<number>(5);
+// valueWrapper<string>('Berk');
+// valueWrapper<boolean>(false);
