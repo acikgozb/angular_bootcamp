@@ -10,7 +10,6 @@ interface Photo {
     thumb: string;
   }
 }
-
 @Injectable({
   providedIn: 'root'
 })

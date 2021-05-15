@@ -9,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class PhotoShowcaseComponent implements OnInit {
   randomImageSource = "";
 
-  constructor(private photoService: PhotoService) { }
+  constructor(private photoService: PhotoService) { 
+  }
 
   ngOnInit(): void {
     this.fetchPhoto();
