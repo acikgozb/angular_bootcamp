@@ -1,0 +1,17 @@
+<form [formGroup]='cardForm'>
+    <input formControlName="name" />
+    <ng-container *ngIf="cardForm.controls.name.errors">
+        <div *ngIf="cardForm.controls.name.errors.required">
+            Value is required.
+        </div>
+        <div *ngIf="cardForm.controls.name.errors.minlength">
+            Current length is {{cardForm.controls.name.errors.minlength.actualLength}}
+            but it must be at least {{cardForm.controls.name.errors.minlength.requiredLength}}
+        </div>
+    </ng-container>
+</form>
+
+
+<div>Form Contents : {{cardForm.value | json}}</div>
+<div>Form is valid : {{ cardForm.valid }}</div>
+<div>Errors around name: {{ cardForm.controls.name.errors | json }}</div>
