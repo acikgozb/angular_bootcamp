@@ -1,6 +1,7 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MathValidators } from '../math-validators';
+import { delay, filter, scan } from 'rxjs/operators';
 
 @Component({
   selector: 'app-equation',
@@ -8,6 +9,8 @@ import { MathValidators } from '../math-validators';
   styleUrls: ['./equation.component.css'],
 })
 export class EquationComponent implements OnInit {
+  secondsPerSolution = 0;
+
   mathForm = new FormGroup(
     {
       a: new FormControl(this.getRandomNumber()),
@@ -31,26 +34,39 @@ export class EquationComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.mathForm.statusChanges.subscribe((value) => {
-      if (value === 'INVALID') {
-        return;
-      }
+    this.mathForm.statusChanges
+      .pipe(
+        delay(100),
+        filter((value) => value === 'VALID'), // ! new operator. Self-explanatory.
+        scan(
+          // ! scan is similar to reduce, but it runs every time observer emits a value. Useful for encapsulating and managing logic.
+          (acc, value) => {
+            return {
+              numberSolved: acc.numberSolved + 1,
+              startTime: acc.startTime,
+            };
+          },
+          { numberSolved: 0, startTime: new Date() }
+        )
+      )
+      .subscribe(({ numberSolved, startTime }) => {
+        this.secondsPerSolution =
+          (new Date().getTime() - startTime.getTime()) / numberSolved / 1000;
+        // this.mathForm.controls.a.setValue(this.getRandomNumber());
+        // this.mathForm.controls.b.setValue(this.getRandomNumber());
+        // this.mathForm.controls.answer.setValue('');
+        // ! do this if you want to set all values inside a form
+        this.mathForm.setValue({
+          a: this.getRandomNumber(),
+          b: this.getRandomNumber(),
+          answer: '',
+        });
 
-      // this.mathForm.controls.a.setValue(this.getRandomNumber());
-      // this.mathForm.controls.b.setValue(this.getRandomNumber());
-      // this.mathForm.controls.answer.setValue('');
-      // ! do this if you want to set all values inside a form
-      this.mathForm.setValue({
-        a: this.getRandomNumber(),
-        b: this.getRandomNumber(),
-        answer: '',
+        // ! do this if you want to update a form partially
+        // this.mathForm.patchValue({
+        //   a: ''
+        // })
       });
-
-      // ! do this if you want to update a form partially
-      // this.mathForm.patchValue({
-      //   a: ''
-      // })
-    });
   }
 
   getRandomNumber(): number {
