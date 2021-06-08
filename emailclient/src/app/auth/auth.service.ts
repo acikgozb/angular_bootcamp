@@ -4,8 +4,14 @@ import {Observable, BehaviorSubject} from "rxjs";
 import {tap} from "rxjs/operators";
 
 
+
 interface UsernameAvailableResponse {
   available: boolean;
+}
+
+interface SignInCredentials {
+  username: string;
+  password: string;
 }
 
 interface SignUpCredentials {
@@ -29,7 +35,7 @@ interface SignedInResponse {
 export class AuthService {
   rootURL = "https://api.angular-email.com";
 
-  isSignedIn$ = new BehaviorSubject(false);
+  isSignedIn$ = new BehaviorSubject<null | boolean>(null);
 
   //! Problem: We need to store the value of whether or not the user is signed in.
 
@@ -91,6 +97,24 @@ export class AuthService {
       .pipe(
         tap(({authenticated}) => {
           this.isSignedIn$.next(authenticated);
+        })
+      );
+  }
+
+  signOut() {
+    return this.httpClient.post(`${this.rootURL}/auth/signout`, {})
+      .pipe(
+        tap(() => {
+          this.isSignedIn$.next(false);
+        })
+      )
+  }
+
+  signIn(credentials: SignInCredentials) {
+    return this.httpClient.post(`${this.rootURL}/auth/signin`, credentials)
+      .pipe(
+        tap(() => {
+          this.isSignedIn$.next(true);
         })
       )
   }

@@ -17,7 +17,7 @@ import {AuthHttpInterceptor} from "./auth/auth-http-interceptor";
     AuthModule,
     HttpClientModule
   ],
-  providers: [ //! required to use a custom interceptor.
+  providers: [ //! use providers for interceptors, to use old DI system.
     {provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

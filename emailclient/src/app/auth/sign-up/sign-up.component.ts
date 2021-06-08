@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {matchPassword} from "./../validators/match-password";
 import {AuthService} from "../auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sign-up',
@@ -33,7 +34,8 @@ export class SignUpComponent implements OnInit {
 
   constructor(
     private uniqueUsername: UniqueUsername,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +52,7 @@ export class SignUpComponent implements OnInit {
     this.authService.signUp(this.authForm.value)
       .subscribe({
         next: (response) => {
-          // Navigate to some other route. e.g email inbox.
+          this.router.navigateByUrl("/inbox");
         },
         error: (err) => {
           //! it is possible to force an error into FormGroup imperatively by calling formGroup.setErrors()

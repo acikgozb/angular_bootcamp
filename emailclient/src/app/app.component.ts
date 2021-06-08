@@ -19,7 +19,7 @@ export class AppComponent {
   //! There is no need to subscribe to the observable in ngOnInit, pipe handles all those by itself.
 
   //! This is not a better way or worse way, just 'another way' of doing things.
-  signedIn$: BehaviorSubject<boolean>;
+  signedIn$: BehaviorSubject<boolean | null>;
 
   constructor(private authService: AuthService) {
     this.signedIn$ = this.authService.isSignedIn$;
